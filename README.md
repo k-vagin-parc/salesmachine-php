@@ -1,4 +1,4 @@
-salesmachine-php: The Official SalesMachine PHP library
+salesmachine-php: The official SalesMachine.IO PHP Client Library
 ====================================================================
 
 salesmachine-php is a library for sending user related data to **SalesMachine.IO**.
@@ -7,8 +7,11 @@ The library can be used right away without a complicated setup as shown in the e
 When using this library in a high traffic production environment you can use different options to optimize the behavior. See the chapter *Usage in Production Environments* and *Options* for more details.
 
 ## Requirements
-In order to the Salesmachine PHP client library you need to have an account at SalesMachine.IO and possess valid API credentials.
-You need at least PHP 5.x with the CURL and JSON module installed.
+First off, you need to have an account at SalesMachine.IO and be in possession of valid API credentials.
+The requirements regarding your PHP environment are the following
+* PHP 5.x 
+* CURL module
+* JSON module
 
 ## Quick Guide and Code Examples
 ### Init Salesmachine and Identify User
@@ -36,8 +39,8 @@ Elements are arrays which belong to a certain set of data. An element can also b
 
     Salesmachine::element($unique_id, $dataset, array('a_key' => 'A value', 'another_key' => 'another value'));
 
-## Usage in Production Environments
-While the default settings get you going right away it is recommend to change some settings for production environments.
+## Using salesmachine-php in Production Environments
+While the default settings get you going right away, it is recommend to change some settings for production environments.
 
 By default, all requests to SalesMachine.IO are directly executed with CURL. On a high traffic environment this can eventually lead to reduced performance on the host site. 
 It is therefore recommended to enable the option "use_buffer" which will buffer all requests to a local file.
