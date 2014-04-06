@@ -1,5 +1,5 @@
-salesmachine-php: The official SalesMachine.IO PHP Client Library
-====================================================================
+SalesMachine.IO PHP Client Library
+===================
 
 salesmachine-php is a library for sending user related data to **SalesMachine.IO**.
 The library can be used right away without a complicated setup as shown in the examples below.
@@ -14,10 +14,14 @@ The requirements regarding your PHP environment are the following
 * JSON module
 
 ## Quick Guide and Code Examples
+### Installation
+The salesmachine-php client library comes as [Composer package](https://getcomposer.org/). 
+This way it should be straight forward to the library in the most common PHP frameworks. All you need to do is to add the *salesmachine/salesmachine-php : "\*"* to the composer.json file of your project. 
+If you do not use the Composer package manager in your project, just include the library with a simple *require('Salesmachine.php');* and you should be ready to go.
+
 ### Init Salesmachine and Identify User
 An API token is issued each time you create an application inside your SalesMachine.IO interface. You need to init the Salesmachine class just once, all following function calls will use the provided credentials.
 
-    require_once('Salesmachine.php');
     Salesmachine::init($api_key, $api_secret);    
 
 ### Identify a User
@@ -49,7 +53,6 @@ The local buffer can then be sent with a cron job in regular intervals by using 
   
 ### Store a requests in local buffer
 
-    require_once('Salesmachine.php');
     Salesmachine::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));    
 
     Salesmachine::identify($your_unique_user_id);
@@ -59,7 +62,6 @@ The local buffer can then be sent with a cron job in regular intervals by using 
 
 ### Process local buffer in cron job
 
-    require_once('Salesmachine.php');
     Salesmachine::init($api_key, $api_secret);    
     Salesmachine::send_buffer();
 
