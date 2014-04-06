@@ -1,0 +1,12 @@
+{
+    "name": "salesmachine/salesmachine-php",
+    "type": "library",
+    "description": "PHP client library of salesmachine.io",
+    "homepage": "https://github.com/salesmachine-io/salesmachine-php",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {
+            "Salesmachine": "src"
+        }
+    }
+}
