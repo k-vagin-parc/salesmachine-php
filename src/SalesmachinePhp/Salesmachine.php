@@ -61,6 +61,7 @@ class Salesmachine
 
   /**
    * Set the parameters of the identified user. Typical values are name, email, user group, etc.
+   * @param type  $unique_user_id
    * @param array $params
    * @return type
    */
@@ -82,6 +83,7 @@ class Salesmachine
 
   /**
    * Track a pageview for the identified user
+   * @param type  $unique_user_id
    * @param type $location
    * @param type $user_ip
    * @param type $user_agent
@@ -120,6 +122,7 @@ class Salesmachine
 
   /**
    * Track an event for an identified user
+   * @param type  $unique_user_id
    * @param type $title
    * @param type $params
    * @return type
