@@ -10,7 +10,7 @@ class Salesmachine
   static $api_url         = 'api.salesmachine.io';
   static $api_token       = null;
   static $api_secret      = null;
-  static $unique_user_id  = null;
+  
   // options
   static $use_https       = true;
   static $encode          = 'none';
@@ -60,31 +60,19 @@ class Salesmachine
   }
 
   /**
-   * Identifies the user we want to track. 
-   * @param type $unique_user_id A unique string identifying your user
-   */
-  static function identify($unique_user_id)
-  {
-    self::$unique_user_id = $unique_user_id;
-  }
-
-  /**
    * Set the parameters of the identified user. Typical values are name, email, user group, etc.
    * @param array $params
    * @return type
    */
-  static function set($params = array())
+  static function user($unique_user_id, $params = array())
   {
-    if (!self::is_identified()) {
-      return;
-    }
 
     if (!$params || !is_array($params)) {
       $params = array();
     }
 
     $message = array(
-      'unique_id'  => self::$unique_user_id,
+      'unique_id'  => $unique_user_id,
       'created_at' => self::get_time(),
       'params'     => $params,
     );
@@ -99,12 +87,9 @@ class Salesmachine
    * @param type $user_agent
    * @return type
    */
-  static function pageview($location, $user_ip = '', $user_agent = '')
+  static function pageview($unique_user_id, $location, $user_ip = '', $user_agent = '')
   {
-    if (!self::is_identified()) {
-      return;
-    }
-    
+
     /* Try to find the client IP if not provided */
     if (!$user_ip) {
       foreach (array('HTTP_X_FORWARDED_FOR', 'HTTP_CLIENT_IP', 'HTTP_X_CLIENT_IP', 'HTTP_X_CLUSTER_CLIENT_IP', 'REMOTE_ADDR') as $header)
@@ -121,7 +106,7 @@ class Salesmachine
     }
     
     $message = array(
-      'unique_id'  => self::$unique_user_id,
+      'unique_id'  => $unique_user_id,
       'created_at' => self::get_time(),
       'event'      => 'pageview',
       'params'     => array(
@@ -139,18 +124,15 @@ class Salesmachine
    * @param type $params
    * @return type
    */
-  static function event($title, $params = array())
+  static function event($unique_user_id, $title, $params = array())
   {
-    if (!self::is_identified()) {
-      return;
-    }
 
     if (!$params || !is_array($params)) {
       $params = array();
     }
 
     $message = array(
-      'unique_id'  => self::$unique_user_id,
+      'unique_id'  => $unique_user_id,
       'event'      => $title,
       'created_at' => self::get_time(),
       'params'     => $params,
@@ -168,9 +150,6 @@ class Salesmachine
    */
   static function element($unique_id, $dataset, $params = array())
   {
-    if (!self::is_identified()) {
-      return;
-    }
 
     if (!$params || !is_array($params)) {
       $params = array();
@@ -270,15 +249,6 @@ class Salesmachine
     }
 
     self::log_error("Salesmachine not initialized. Call Salesmachine::init(<token>,<secret>) at least once.");
-  }
-
-  static protected function is_identified()
-  {
-    if (self::$unique_user_id) {
-      return true;
-    }
-
-    self::log_error("No user identified. Call Salesmachine::identify(<unique_id>) at least once.");
   }
 
   static function set_time($time)

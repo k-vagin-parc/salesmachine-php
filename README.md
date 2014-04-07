@@ -1,63 +1,62 @@
 SalesMachine.IO PHP Client Library
 ===================
 
-salesmachine-php is a library for sending user related data to **SalesMachine.IO**.
-The library can be used right away without a complicated setup as shown in the examples below.
+salesmachine-php is a library which allows you to easily send data from your PHP aplication to **SalesMachine.IO**. The library can be used right away without a complicated setup as shown in the examples below.
 
 When using this library in a high traffic production environment you can use different options to optimize the behavior. See the chapter *Usage in Production Environments* and *Options* for more details.
 
 ## Requirements
 First off, you need to have an account at SalesMachine.IO and be in possession of valid API credentials.
-The requirements regarding your PHP environment are the following
+The requirements regarding your PHP environment are quite basic:
 * PHP 5.x 
 * CURL module
 * JSON module
 
 ## Quick Guide and Code Examples
 ### Installation
-The salesmachine-php client library comes as [Composer package](https://getcomposer.org/). 
-This way it should be straight forward to the library in the most common PHP frameworks. All you need to do is to add the *salesmachine/salesmachine-php : "\*"* to the composer.json file of your project. 
-If you do not use the Composer package manager in your project, just include the library with a simple *require('Salesmachine.php');* and you should be ready to go.
+The salesmachine-php client library comes as a [Composer package](https://getcomposer.org/) and implements the PSR-0 autoload definition. This way it should be straight forward to use the library in the most modern PHP applications. All you need to do is to add the *salesmachine/salesmachine-php : "\*"* to the composer.json file of your project and update your dependencies with the command "composer update". 
 
-### Init Salesmachine and Identify User
-An API token is issued each time you create an application inside your SalesMachine.IO interface. You need to init the Salesmachine class just once, all following function calls will use the provided credentials.
+If you do not use the Composer package manager or PSR-0 autoloading in your project, just include the library file with a simple *require('Salesmachine.php');* and you should be ready to go.
 
-    Salesmachine::init($api_key, $api_secret);    
+### Init Salesmachine 
+salesmachine-php is a static class which makes the usage very easy. Once initialized, the class and its methods can be called at different places without re-initializing. For a quick start you can use the default values and initialize the class as followed:
 
-### Identify a User
+    Salesmachine::init($api_token, $api_secret);
 
-    Salesmachine::identify($your_unique_user_id);
+For an usage in a production environment you might want to tweak some parameters. This can be done by adding an array with parameters while initiliazing the class. A list of all options is described later in this document. An example call with parameters would look this:
+
+    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));    
 
 ### Create or Update a User
-
-    Salesmachine::set(array('name' => 'John Doe', 'email' => 'john@doe.com'));
+    Salesmachine::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
 
 ### Track Pageview of a User
-    Salesmachine::pageview('/dashboard');
+    Salesmachine::pageview($unique_user_id, '/dashboard');
 
 ### Tack Events of a User
-    Salesmachine::event('your event name');
+    Salesmachine::event($unique_user_id, 'your event name');
 
 ### Create or Update a Data Element
 Elements are arrays which belong to a certain set of data. An element can also be associated to a user by adding user_id to the parameters.
 
     Salesmachine::element($unique_id, $dataset, array('a_key' => 'A value', 'another_key' => 'another value'));
 
+An exampe of a data elemen call could look like this
+
+    Salesmachine::element('project_12345', 'projects', array('user_id' => '1234', 'created_at' => '1396866339','title' => 'The title of the project'));
+
 ## Using salesmachine-php in Production Environments
 While the default settings get you going right away, it is recommend to change some settings for production environments.
 
-By default, all requests to SalesMachine.IO are directly executed with CURL. On a high traffic environment this can eventually lead to reduced performance on the host site. 
-It is therefore recommended to enable the option "use_buffer" which will buffer all requests to a local file.
+By default, all requests to SalesMachine.IO are with CURL in real time. On a high traffic environment this can eventually lead to reduced performance on the host site. It is therefore recommended to enable the option "use_buffer" which will buffer all requests to a local file first.
 
 The local buffer can then be sent with a cron job in regular intervals by using the code below. This method ensures that the SalesMachine.IO library won't degrade the performance of the host environment.
   
 ### Store a requests in local buffer
 
-    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));    
-
-    Salesmachine::identify($your_unique_user_id);
-    Salesmachine::set(array('name' => 'John Doe', 'email' => 'john@doe.com'));
-    Salesmachine::pageview('/dashboard');
+    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));   
+    Salesmachine::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
+    Salesmachine::pageview($unique_user_id, '/dashboard');
     ...
 
 ### Process local buffer in cron job
@@ -67,7 +66,7 @@ The local buffer can then be sent with a cron job in regular intervals by using 
 
 ## Options
 When calling Salesmachine::init($api_key, $api_secret) an array of options can be passed as a third parameter. 
-If this parameter is not present or option keys are missing, the default values are taken. While the default values will get you going right away it is recommend to adjust the settings based on environment in which you're using the SalesMachine.IO library
+If this parameter is not present or option keys are missing, the default values are taken. 
 
 |Option | Default | Description
 |:------------:|:-------------:| ----- |
