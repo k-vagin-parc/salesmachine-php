@@ -1,6 +1,7 @@
 <?php
 
-namespace Salesmachine;
+namespace SalesmachinePhp;
+use Exception;
 
 class Salesmachine
 {
@@ -28,7 +29,6 @@ class Salesmachine
    * @param type $api_secret
    * @param type $options
    * @return type
-   * @throws Exception
    */
   static function init($api_token, $api_secret, $options = array())
   {
