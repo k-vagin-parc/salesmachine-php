@@ -14,36 +14,37 @@ The requirements regarding your PHP environment are quite basic:
 
 ## Quick Guide and Code Examples
 ### Installation
-The salesmachine-php client library comes as a [Composer package](https://getcomposer.org/) and implements the PSR-0 autoload definition. This way it should be straight forward to use the library in the most modern PHP applications. All you need to do is to add the *salesmachine/salesmachine-php : "\*"* to the composer.json file of your project and update your dependencies with the command "composer update". 
+The salesmachine-php client library comes as a [Composer package](https://getcomposer.org/) and implements the PSR-0 autoload definition. This way it should be straight forward to use the library in the most modern PHP applications. All you need to do is to add the *salesmachine/salesmachine-php : "dev-master"* to the composer.json file of your project and update your dependencies with the command "composer update". 
 
 If you do not use the Composer package manager or PSR-0 autoloading in your project, just include the library file with a simple *require('Salesmachine.php');* and you should be ready to go.
 
 ### Init Salesmachine 
 salesmachine-php is a static class which makes the usage very easy. Once initialized, the class and its methods can be called at different places without re-initializing. For a quick start you can use the default values and initialize the class as followed:
 
-    Salesmachine::init($api_token, $api_secret);
+    use \SalesmachinePhp\Salesmachine as SM;
+    SM::init($api_token, $api_secret);
 
 For an usage in a production environment you might want to tweak some parameters. This can be done by adding an array with parameters while initiliazing the class. A list of all options is described later in this document. An example call with parameters would look this:
 
-    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));    
+    SM::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));    
 
 ### Create or Update a User
-    Salesmachine::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
+    SM::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
 
 ### Track Pageview of a User
-    Salesmachine::pageview($unique_user_id, '/dashboard');
+    SM::pageview($unique_user_id, '/dashboard');
 
 ### Tack Events of a User
-    Salesmachine::event($unique_user_id, 'your event name');
+    SM::event($unique_user_id, 'your event name');
 
 ### Create or Update a Data Element
 Elements are arrays which belong to a certain set of data. An element can also be associated to a user by adding user_id to the parameters.
 
-    Salesmachine::element($unique_id, $dataset, array('a_key' => 'A value', 'another_key' => 'another value'));
+    SM::element($unique_id, $dataset, array('a_key' => 'A value', 'another_key' => 'another value'));
 
 An exampe of a data elemen call could look like this
 
-    Salesmachine::element('project_12345', 'projects', array('user_id' => '1234', 'created_at' => '1396866339','title' => 'The title of the project'));
+    SM::element('project_12345', 'projects', array('user_id' => '1234', 'created_at' => '1396866339','title' => 'The title of the project'));
 
 ## Using salesmachine-php in Production Environments
 While the default settings get you going right away, it is recommend to change some settings for production environments.
@@ -54,18 +55,18 @@ The local buffer can then be sent with a cron job in regular intervals by using 
   
 ### Store a requests in local buffer
 
-    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));   
-    Salesmachine::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
-    Salesmachine::pageview($unique_user_id, '/dashboard');
+    SM::init($api_key, $api_secret, array('use_buffer' => true));   
+    SM::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
+    SM::pageview($unique_user_id, '/dashboard');
     ...
 
 ### Process local buffer in cron job
 
-    Salesmachine::init($api_key, $api_secret);    
-    Salesmachine::send_buffer();
+    SM::init($api_key, $api_secret);    
+    SM::send_buffer();
 
 ## Options
-When calling Salesmachine::init($api_key, $api_secret) an array of options can be passed as a third parameter. 
+When calling SM::init($api_key, $api_secret) an array of options can be passed as a third parameter. 
 If this parameter is not present or option keys are missing, the default values are taken. 
 
 |Option | Default | Description
