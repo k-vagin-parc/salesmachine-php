@@ -300,7 +300,7 @@ class Salesmachine
         'user'     => $base_url . '/v1/user',
         'element'  => $base_url . '/v1/element',
         'event'    => $base_url . '/v1/track/event',
-        'pageview' => $base_url . '/v1/track/pageview',
+        'pageview' => $base_url . '/v1/track/event',
       );
     }
 
