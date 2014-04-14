@@ -112,9 +112,9 @@ class Salesmachine
       'created_at' => self::get_time(),
       'event'      => 'pageview',
       'params'     => array(
-        'location'   => $location,
-        'user_ip'    => $user_ip,
-        'user_agent' => $user_agent
+        'visit_url'   => $location,
+        'visit_ip'    => $user_ip,
+        'visit_agent' => $user_agent
       ),
     );
     self::store_or_send('pageview', 'POST', $message);
