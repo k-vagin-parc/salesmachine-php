@@ -261,7 +261,7 @@ class Salesmachine
 
   static protected function get_time()
   {
-    return !is_null(self::$epoch) ? self::$epoch : time();
+    return (!is_null(self::$epoch) ? self::$epoch : time()) * 1000;
   }
 
   static protected function log_error($msg)
