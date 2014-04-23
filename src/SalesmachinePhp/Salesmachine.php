@@ -134,9 +134,11 @@ class Salesmachine
       $params = array();
     }
 
+    $params['title'] = $title;
+    
     $message = array(
       'unique_id'  => $unique_user_id,
-      'event'      => $title,
+      'event'      => 'custom',
       'created_at' => self::get_time(),
       'params'     => $params,
     );
@@ -261,7 +263,7 @@ class Salesmachine
 
   static protected function get_time()
   {
-    return (!is_null(self::$epoch) ? self::$epoch : time()) * 1000;
+    return !is_null(self::$epoch) ? self::$epoch : time();
   }
 
   static protected function log_error($msg)
