@@ -28,14 +28,14 @@ For an usage in a production environment you might want to tweak some parameters
 
     SM::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));    
 
-### Create or Update a User
-    SM::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
+### Create or Update a Contact
+    SM::user($unique_contact_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
 
-### Track Pageview of a User
-    SM::pageview($unique_user_id, '/dashboard');
+### Track Pageview of a Contact
+    SM::pageview($unique_contact_id, '/dashboard');
 
-### Tack Events of a User
-    SM::event($unique_user_id, 'your event name');
+### Tack Events of a Contact
+    SM::event($unique_contact_id, 'your event name');
 
 ### Create or Update a Data Element
 Elements are arrays which belong to a certain set of data. An element can also be associated to a user by adding user_id to the parameters.
