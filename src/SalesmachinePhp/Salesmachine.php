@@ -60,6 +60,53 @@ class Salesmachine
   }
 
   /**
+   * Set the parameters of the identified contact. Typical values are name, email, contact group, etc.
+   * @param type  $unique_contact_id
+   * @param array $params
+   * @return type
+   */
+  static function contact($unique_contact_id, $params = array())
+  {
+
+    if (!$params || !is_array($params)) {
+      $params = array();
+    }
+
+    $message = array(
+      'unique_id'  => $unique_contact_id,
+      'created_at' => self::get_time(),
+      'params'     => $params,
+    );
+
+    self::store_or_send('contact', 'POST', $message);
+  }
+
+
+  /**
+   * Set the parameters of the identified account. Typical values are name, email, contact group, etc.
+   * @param type  $unique_account_id
+   * @param array $params
+   * @return type
+   */
+  static function account($unique_account_id, $params = array())
+  {
+
+    if (!$params || !is_array($params)) {
+      $params = array();
+    }
+
+    $message = array(
+      'unique_id'  => $unique_account_id,
+      'created_at' => self::get_time(),
+      'params'     => $params,
+    );
+
+    self::store_or_send('account', 'POST', $message);
+  }
+
+
+
+/**
    * Set the parameters of the identified user. Typical values are name, email, user group, etc.
    * @param type  $unique_user_id
    * @param array $params
@@ -80,6 +127,8 @@ class Salesmachine
 
     self::store_or_send('user', 'POST', $message);
   }
+
+
 
   /**
    * Track a pageview for the identified user
@@ -146,30 +195,7 @@ class Salesmachine
     self::store_or_send('event', 'POST', $message);
   }
 
-  /**
-   * Creates or updates a data element in Salesmachine. A data element can be 
-   * linked to to a user using user_id inside the parameters.
-   * @param type $unique_id
-   * @param array $params
-   * @return type
-   */
-  static function element($unique_id, $dataset, $params = array())
-  {
-
-    if (!$params || !is_array($params)) {
-      $params = array();
-    }
-
-    $params['dataset'] = $dataset;
-
-    $message = array(
-      'unique_id'  => $unique_id,
-      'created_at' => self::get_time(),
-      'params'     => $params
-    );
-
-    self::store_or_send('pageview', 'POST', $message);
-  }
+ 
 
   /**
    * Used for processing the locally stored buffer of requests. 
@@ -300,7 +326,8 @@ class Salesmachine
     if (self::$api_version == '1') {
       $endpoints = array(
         'user'     => $base_url . '/v1/user',
-        'element'  => $base_url . '/v1/element',
+        'contact'     => $base_url . '/v1/contact',        
+        'account'  => $base_url . '/v1/account',
         'event'    => $base_url . '/v1/track/event',
         'pageview' => $base_url . '/v1/track/event',
       );
