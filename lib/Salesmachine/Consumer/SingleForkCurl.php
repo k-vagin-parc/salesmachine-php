@@ -83,7 +83,7 @@ class Salesmachine_Consumer_SingleForkCurl extends Salesmachine_Consumer {
     $url = $protocol . $id . $host . $path;
 
     $cmd = "curl -X POST -H 'Content-Type: application/json'";
-    $cmd.= " -d " . $payload . " '" . $url . "' --trace-ascii curl.log";
+    $cmd.= " -d " . $payload . " '" . $url . "'";
 
     if (!$this->debug()) {
       $cmd .= " > /dev/null 2>&1 &";

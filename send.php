@@ -52,7 +52,7 @@ $lines = explode("\n", $contents);
  * Initialize the client.
  */
 
-Salesmachine::init($args["secret"], array(
+Salesmachine::init("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw", array(
   "debug" => true,
   "error_handler" => function($code, $msg){
     print("$code: $msg\n");
@@ -69,11 +69,11 @@ $successful = 0;
 foreach ($lines as $line) {
   if (!trim($line)) continue;
   $payload = json_decode($line, true);
-  $dt = new DateTime($payload["timestamp"]);
-  $ts = floatval($dt->getTimestamp() . "." . $dt->format("u"));
-  $payload["timestamp"] = $ts;
-  $type = $payload["type"];
-  $ret = call_user_func_array(array("Salesmachine", $type), array($payload));
+  //$dt = new DateTime($payload["timestamp"]);
+  //$ts = floatval($dt->getTimestamp() . "." . $dt->format("u"));
+  //$payload["timestamp"] = $ts;
+  //$type = $payload["type"];
+  $ret = call_user_func_array(array("Salesmachine", "set_contact"), array($payload));
   if ($ret) $successful++;
   $total++;
   if ($total % 100 === 0) Salesmachine::flush();
