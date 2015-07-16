@@ -12,7 +12,9 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase {
   function testContact() {
     $this->assertTrue(Salesmachine::set_contact(array(
       "contact_uid" => "123456",
-      "name" => "Martin Mystère"
+      "params" => array(
+        "name" => "Martin Mystère"
+      )
     )));
   }
 

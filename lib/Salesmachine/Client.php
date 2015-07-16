@@ -161,10 +161,10 @@ class Salesmachine_Client {
 
   private function message($msg, $def = ""){
     $created_at = $this->formatTime(null);
-    $contact_uid = $msg['contact_uid'];
+    /*$contact_uid = $msg['contact_uid'];
     unset($msg['contact_uid']);
-    $wrapper = array('contact_uid' => $contact_uid, 'params' => $msg);
-    return $wrapper;
+    $wrapper = array('contact_uid' => $contact_uid, 'params' => $msg);*/
+    return $msg;
   }
 
   /**

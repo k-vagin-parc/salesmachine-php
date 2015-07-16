@@ -66,6 +66,7 @@ abstract class Salesmachine_QueueConsumer extends Salesmachine_Consumer {
    * @return boolean whether the track call succeeded
    */
   public function track_pageview(array $message) {
+    $message["event_uid"] = "pageview";
     return $this->enqueue($message);
   }
 

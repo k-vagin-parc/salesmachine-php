@@ -16,29 +16,42 @@ class ConsumerBulkForkCurlTest extends PHPUnit_Framework_TestCase {
   function testAccount() {
     $this->assertTrue($this->client->set_account(array(
       "contact_uid" => "1",
-      "name" => "Jean Account"
+      "params" => array(
+        "name" => "Jean Account"
+      )
     )));
   }
 
    function testContact() {
     $this->assertTrue($this->client->set_contact(array(
       "contact_uid" => "1",
-      "email" => "Test post",
-      "display_name" => "coucou",
-      "name" => "Jean Contact",
-      "account_uid" => "1"
+      "params" => array(
+        "email" => "Test post",
+        "display_name" => "coucou",
+        "name" => "Jean Contact",
+        "account_uid" => "1"
+      )
     )));
   }
 
   function testEvent() {
     $this->assertTrue($this->client->track_event(array(
-      "contact_uid" => "7549"
+      "contact_uid" => "7549",
+      "event_uid" => "user_registration",
+      "params" => array(
+        "account_uid" => "78910",
+        "display_name" => "Registration"
+      )
     )));
   }
 
   function testPageview() {
     $this->assertTrue($this->client->track_pageview(array(
-      "contact_uid" => "75478"
+      "contact_uid" => "75478",
+      "params" => array(
+        "account_uid" => "78910",
+        "display_name" => "Registration"
+      )
     )));
   }
 
