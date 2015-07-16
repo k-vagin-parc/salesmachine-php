@@ -22,7 +22,7 @@ If you do not use the Composer package manager or PSR-0 autoloading in your proj
 salesmachine-php is a static class which makes the usage very easy. Once initialized, the class and its methods can be called at different places without re-initializing. For a quick start you can use the default values and initialize the class as followed:
 
     use \SalesmachinePhp\Salesmachine as Salesmachine;
-    Salesmachine:init($api_token, $api_secret);
+    Salesmachine::init($api_token, $api_secret);
 
 For an usage in a production environment you might want to tweak some parameters. This can be done by adding an array with parameters while initiliazing the class. A list of all options is described later in this document. An example call with parameters would look this:
 
@@ -52,8 +52,8 @@ The local buffer can then be sent with a cron job in regular intervals by using 
 
 ### Process local buffer in cron job
 
-    SM::init($api_key, $api_secret);
-    SM::send_buffer();
+    Salesmachine::init($api_key, $api_secret);
+    Salesmachine::flush();
 
 ## Options
 When calling Salesmachine::init($api_key, $api_secret) an array of options can be passed as a third parameter.
@@ -63,9 +63,6 @@ If this parameter is not present or option keys are missing, the default values 
 |:------------:|:-------------:| ----- |
 |use_https | true | Whether or not to send the data to SalesMachine SSL encrypted
 |use_buffer | false | If set to true, requests will be written to a local file instead of sent directly to SalesMachine.io. The buffer of stored requests can then later be sent by a cron job.
-|log_dir | /logs/ |A writeable directory where the buffer and the debug file can be stored. Trailing slash is mandatory.
-|log_file_buffer | salesmachine_buffer.log | The file which will be used for the local buffer of requests.
-|log_file_debug | salesmachine_debug.log | The log file in which can be used for debugging.
 |debug | false | If activated, debug information will be written to the log file
 
 ## Additional Information
