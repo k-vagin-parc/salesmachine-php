@@ -44,12 +44,14 @@ class Salesmachine_Client {
                                                    "single_fork_curl";
     $Consumer = $consumers[$consumer_type];
 
-    # Create a consumer by endpoint
-    $this->consumer_contact = new $Consumer($token, $secret, "contact", $options);
-    $this->consumer_account = new $Consumer($token, $secret, "account", $options);
-    $this->consumer_event = new $Consumer($token, $secret, "track/event", $options);
-    $this->consumer_pageview = new $Consumer($token, $secret, "track/event", $options);
-
+    /* Commented "if" below will have to be uncommented and to get an "else" statement when bulk mode is activated
+    /*if ($Consumer == "Salesmachine_Consumer_SingleForkCurl") {
+      # Create a consumer by endpoint*/
+      $this->consumer_contact = new $Consumer($token, $secret, "contact", $options);
+      $this->consumer_account = new $Consumer($token, $secret, "account", $options);
+      $this->consumer_event = new $Consumer($token, $secret, "track/event", $options);
+      $this->consumer_pageview = new $Consumer($token, $secret, "track/event", $options);
+    //}
     $this->token = $token;
   }
 
@@ -163,10 +165,8 @@ class Salesmachine_Client {
    */
 
   private function message($msg, $def = ""){
-    $created_at = $this->formatTime(null);
-    /*$contact_uid = $msg['contact_uid'];
-    unset($msg['contact_uid']);
-    $wrapper = array('contact_uid' => $contact_uid, 'params' => $msg);*/
+    /* To define later eventually*/
+    //$created_at = $this->formatTime(null);
     return $msg;
   }
 

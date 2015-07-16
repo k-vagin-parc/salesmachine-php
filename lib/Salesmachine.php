@@ -19,6 +19,15 @@ class Salesmachine {
   public static function init($token, $secret, $options = array()) {
     self::assert($token, "Salesmachine::init() requires token");
     self::assert($secret, "Salesmachine::init() requires secret");
+
+    if (isset($options['use_buffer'])) {
+      $options['consumer'] = $options['use_buffer'] ? "bulk_fork_curl" : "single_fork_curl";
+    }
+    else {
+      $options['consumer'] = "single_fork_curl";
+    }
+
+    //var_dump($options['consumer']);
     self::$client = new Salesmachine_Client($token, $secret, $options);
   }
 

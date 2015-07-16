@@ -120,6 +120,7 @@ abstract class Salesmachine_QueueConsumer extends Salesmachine_Consumer {
   protected function payload($batch){
     return $batch[0];
     /*
+    TO MODIFY WHEN BULK MODE IS ACTIVATED
     return array(
       "batch" => $batch,
       "sentAt" => date("c"),

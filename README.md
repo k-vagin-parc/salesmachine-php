@@ -46,9 +46,8 @@ The local buffer can then be sent with a cron job in regular intervals by using 
 
 ### Store a requests in local buffer
 
-    SM::init($api_key, $api_secret, array('use_buffer' => true));
-    SM::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
-    SM::pageview($unique_user_id, '/dashboard');
+    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));
+    Salesmachine::set_contact($unique_contact_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
     ...
 
 ### Process local buffer in cron job
@@ -57,7 +56,7 @@ The local buffer can then be sent with a cron job in regular intervals by using 
     SM::send_buffer();
 
 ## Options
-When calling SM::init($api_key, $api_secret) an array of options can be passed as a third parameter.
+When calling Salesmachine::init($api_key, $api_secret) an array of options can be passed as a third parameter.
 If this parameter is not present or option keys are missing, the default values are taken.
 
 |Option | Default | Description
