@@ -10,42 +10,37 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase {
   }
 
   function testContact() {
-    $this->assertTrue(Salesmachine::set_contact(array(
-      "contact_uid" => "123456",
-      "params" => array(
+    $this->assertTrue(Salesmachine::set_contact("123456",
+      array(
         "name" => "Martin Mystère"
       )
-    )));
+    ));
   }
 
   function testAccount() {
-    $this->assertTrue(Salesmachine::set_account(array(
-      "contact_uid" => "1",
-      "params" => array(
+    $this->assertTrue(Salesmachine::set_account("1",
+       array(
         "name" => "Jean Account"
       )
-    )));
+    ));
   }
 
   function testEvent() {
-    $this->assertTrue(Salesmachine::track_event(array(
-      "contact_uid" => "7549",
-      "event_uid" => "user_registration",
-      "params" => array(
+    $this->assertTrue(Salesmachine::track_event("7549", "user_registration",
+      array(
         "account_uid" => "78910",
         "display_name" => "Registration"
       )
-    )));
+    ));
   }
 
   function testPageview() {
-    $this->assertTrue(Salesmachine::track_pageview(array(
-      "contact_uid" => "75478",
-      "params" => array(
+    $this->assertTrue(Salesmachine::track_pageview("75478",
+      array(
         "account_uid" => "78910",
         "display_name" => "Registration"
       )
-    )));
+    ));
   }
 }
 ?>

@@ -14,45 +14,40 @@ class ConsumerSingleForkCurlTest extends PHPUnit_Framework_TestCase {
   }
 
   function testAccount() {
-    $this->assertTrue($this->client->set_account(array(
-      "contact_uid" => "1",
-      "params" => array(
+    $this->assertTrue($this->client->set_account("1",
+      array(
         "name" => "Jean Account"
       )
-    )));
+    ));
   }
 
    function testContact() {
-    $this->assertTrue($this->client->set_contact(array(
-      "contact_uid" => "1",
-      "params" => array(
+    $this->assertTrue($this->client->set_contact("1",
+      array(
         "email" => "Test post",
         "display_name" => "coucou",
         "name" => "Jean Contact",
         "account_uid" => "1"
       )
-    )));
+    ));
   }
 
   function testEvent() {
-    $this->assertTrue($this->client->track_event(array(
-      "contact_uid" => "7549",
-      "event_uid" => "user_registration",
-      "params" => array(
+    $this->assertTrue($this->client->track_event("7549", "user_registration",
+      array(
         "account_uid" => "78910",
         "display_name" => "Registration"
       )
-    )));
+    ));
   }
 
   function testPageview() {
-    $this->assertTrue($this->client->track_pageview(array(
-      "contact_uid" => "75478",
-      "params" => array(
+    $this->assertTrue($this->client->track_pageview("75478",
+      array(
         "account_uid" => "78910",
         "display_name" => "Registration"
       )
-    )));
+    ));
   }
 }
 ?>

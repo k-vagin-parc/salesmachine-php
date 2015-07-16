@@ -60,7 +60,6 @@ class Salesmachine_Consumer_SingleForkCurl extends Salesmachine_Consumer {
    * @return boolean whether the track call succeeded
    */
   public function track_pageview(array $message) {
-    $message["event_uid"] = "pageview";
     return $this->send($message);
   }
 

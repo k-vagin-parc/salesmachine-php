@@ -28,10 +28,10 @@ class Salesmachine {
    * @param  array $message
    * @return boolean whether the track call succeeded
    */
-  public static function set_contact(array $message) {
+  public static function set_contact($contact_uid, array $message = array()) {
     self::checkClient();
-    self::validate($message);
-    return self::$client->set_contact($message);
+    //self::validate($message);
+    return self::$client->set_contact($contact_uid, $message);
   }
 
   /**
@@ -40,10 +40,10 @@ class Salesmachine {
    * @param  array $message
    * @return boolean whether the track call succeeded
    */
-  public static function set_account(array $message) {
+  public static function set_account($account_uid, array $message = array()) {
     self::checkClient();
-    self::validate($message);
-    return self::$client->set_account($message);
+    //self::validate($message);
+    return self::$client->set_account($account_uid, $message);
   }
 
   /**
@@ -52,10 +52,10 @@ class Salesmachine {
    * @param  array $message
    * @return boolean whether the track call succeeded
    */
-  public static function track_event(array $message) {
+  public static function track_event($contact_uid, $event_uid, array $message = array()) {
     self::checkClient();
-    self::validate($message);
-    return self::$client->track_event($message);
+    //self::validate($message);
+    return self::$client->track_event($contact_uid, $event_uid, $message);
   }
 
   /**
@@ -64,10 +64,10 @@ class Salesmachine {
    * @param  array $message
    * @return boolean whether the track call succeeded
    */
-  public static function track_pageview(array $message) {
+  public static function track_pageview($contact_uid, array $message = array()) {
     self::checkClient();
-    self::validate($message);
-    return self::$client->track_pageview($message);
+    //self::validate($message);
+    return self::$client->track_pageview($contact_uid, $message);
   }
 
   /**
@@ -75,11 +75,11 @@ class Salesmachine {
    *
    * @param array $msg
    * @param string $type
-   */
+
   public static function validate($msg){
     $userId = !empty($msg["contact_uid"]);
-    self::assert($userId, "Salesmachine::* requires contact_uid");
-  }
+    self::assert($userId, "Salesmachine requires contact_uid for any request.");
+  }*/
 
   /**
    * Flush the client

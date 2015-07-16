@@ -39,7 +39,7 @@ class Salesmachine_Client {
       "single_fork_curl"  => "Salesmachine_Consumer_SingleForkCurl"
     );
 
-    # Use our socket consumer by default
+    # Use our curl single-request consumer by default
     $consumer_type = isset($options["consumer"]) ? $options["consumer"] :
                                                    "single_fork_curl";
     $Consumer = $consumers[$consumer_type];
@@ -49,6 +49,7 @@ class Salesmachine_Client {
     $this->consumer_account = new $Consumer($token, $secret, "account", $options);
     $this->consumer_event = new $Consumer($token, $secret, "track/event", $options);
     $this->consumer_pageview = new $Consumer($token, $secret, "track/event", $options);
+
     $this->token = $token;
   }
 
@@ -65,9 +66,9 @@ class Salesmachine_Client {
    * @param  array $message
    * @return [boolean] whether the track call succeeded
    */
-  public function set_contact(array $message) {
-    //$message = $this->message($message, "properties");
+  public function set_contact($contact_uid, array $message = array()) {
     //$message["type"] = "track";
+    $message['contact_uid'] = $contact_uid;
     return $this->consumer_contact->set_contact($this->message($message));
   }
 
@@ -77,9 +78,9 @@ class Salesmachine_Client {
    * @param  array $message
    * @return [boolean] whether the track call succeeded
    */
-  public function set_account(array $message) {
-    //$message = $this->message($message, "properties");
+  public function set_account($account_uid, array $message = array()) {
     //$message["type"] = "track";
+    $message['account_uid'] = $account_uid;
     return $this->consumer_account->set_account($this->message($message));
   }
 
@@ -89,9 +90,10 @@ class Salesmachine_Client {
    * @param  array $message
    * @return [boolean] whether the track call succeeded
    */
-  public function track_event(array $message) {
-    //$message = $this->message($message, "properties");
+  public function track_event($contact_uid, $event_uid, array $message = array()) {
     //$message["type"] = "track";
+    $message['contact_uid'] = $contact_uid;
+    $message['event_uid'] = $event_uid;
     return $this->consumer_event->track_event($this->message($message));
   }
 
@@ -101,9 +103,10 @@ class Salesmachine_Client {
    * @param  array $message
    * @return [boolean] whether the track call succeeded
    */
-  public function track_pageview(array $message) {
-    //$message = $this->message($message, "properties");
+  public function track_pageview($contact_uid, array $message = array()) {
     //$message["type"] = "track";
+    $message['contact_uid'] = $contact_uid;
+    $message['event_uid'] = "pageview";
     return $this->consumer_pageview->track_pageview($this->message($message));
   }
 
