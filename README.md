@@ -38,7 +38,7 @@ For an usage in a production environment you might want to tweak some parameters
     Salesmachine::track_event($unique_contact_id, 'your event name');
 
 ## Using salesmachine-php in Production Environments
-While the default settings get you going right away, it is recommend to change some settings for production environments.
+While the default settings get you going right away, it is recommended to change some settings for production environments.
 
 By default, all requests to SalesMachine.IO are with CURL in real time. On a high traffic environment this can eventually lead to reduced performance on the host site. It is therefore recommended to enable the option "use_buffer" which will buffer all requests to a local file first.
 
@@ -63,7 +63,7 @@ If this parameter is not present or option keys are missing, the default values 
 |:------------:|:-------------:| ----- |
 |use_https | true | Whether or not to send the data to SalesMachine SSL encrypted
 |use_buffer | false | If set to true, requests will be written to a local file instead of sent directly to SalesMachine.io. The buffer of stored requests can then later be sent by a cron job.
-|debug | false | If activated, debug information will be written to the log file
+|debug | false | If activated, debug information will be written to the log file in test/analytics-xx.log
 
 ## Additional Information
 
