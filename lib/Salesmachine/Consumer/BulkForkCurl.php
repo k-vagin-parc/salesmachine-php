@@ -53,6 +53,6 @@ class Salesmachine_Consumer_BulkForkCurl extends Salesmachine_QueueConsumer {
       $this->handleError($exit, $output);
     }
 
-    return $exit == 0;
+    return $exit == 0 && !isset(json_decode($output[0], true)['error']);
   }
 }

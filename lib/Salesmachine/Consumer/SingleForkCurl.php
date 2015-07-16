@@ -95,6 +95,6 @@ class Salesmachine_Consumer_SingleForkCurl extends Salesmachine_Consumer {
       $this->handleError($exit, $output);
     }
 
-    return $exit == 0;
+    return $exit == 0 && !isset(json_decode($output[0], true)['error']);
   }
 }
