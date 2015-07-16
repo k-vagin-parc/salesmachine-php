@@ -1,5 +1,5 @@
 <?php
-abstract class Segment_QueueConsumer extends Segment_Consumer {
+abstract class Salesmachine_QueueConsumer extends Salesmachine_Consumer {
 
   protected $type = "QueueConsumer";
 
@@ -12,8 +12,8 @@ abstract class Segment_QueueConsumer extends Segment_Consumer {
    * @param string $secret
    * @param array  $options
    */
-  public function __construct($secret, $options = array()) {
-    parent::__construct($secret, $options);
+  public function __construct($token, $secret, $options = array()) {
+    parent::__construct($token, $secret, $options);
 
     if (isset($options["max_queue_size"]))
       $this->max_queue_size = $options["max_queue_size"];
@@ -30,64 +30,45 @@ abstract class Segment_QueueConsumer extends Segment_Consumer {
   }
 
   /**
-   * Tracks a user action
+   * Sets a contact
    *
    * @param  array  $message
    * @return boolean whether the track call succeeded
    */
-  public function track(array $message) {
+  public function set_contact(array $message) {
     return $this->enqueue($message);
   }
 
   /**
-   * Tags traits about the user.
+   * Sets an account
    *
    * @param  array  $message
-   * @return boolean whether the identify call succeeded
+   * @return boolean whether the track call succeeded
    */
-  public function identify(array $message) {
+  public function set_account(array $message) {
     return $this->enqueue($message);
   }
 
   /**
-   * Tags traits about the group.
+   * Tracks an event
    *
    * @param  array  $message
-   * @return boolean whether the group call succeeded
+   * @return boolean whether the track call succeeded
    */
-  public function group(array $message) {
+  public function track_event(array $message) {
     return $this->enqueue($message);
   }
 
   /**
-   * Tracks a page view.
+   * Tracks a pageview event
    *
    * @param  array  $message
-   * @return boolean whether the page call succeeded
+   * @return boolean whether the track call succeeded
    */
-  public function page(array $message) {
+  public function track_pageview(array $message) {
     return $this->enqueue($message);
   }
 
-  /**
-   * Tracks a screen view.
-   *
-   * @param  array  $message
-   * @return boolean whether the screen call succeeded
-   */
-  public function screen(array $message) {
-    return $this->enqueue($message);
-  }
-
-  /**
-   * Aliases from one user id to another
-   *
-   * @param  array $message
-   * @return boolean whether the alias call succeeded
-   */
-  public function alias(array $message) {
-    return $this->enqueue($message);
-  }
 
   /**
    * Adds an item to our queue.
@@ -132,15 +113,17 @@ abstract class Segment_QueueConsumer extends Segment_Consumer {
   /**
    * Given a batch of messages the method returns
    * a valid payload.
-   * 
+   *
    * @param {Array} batch
    * @return {Array}
    **/
   protected function payload($batch){
+    return $batch[0];
+    /*
     return array(
       "batch" => $batch,
       "sentAt" => date("c"),
-    );
+    );*/
   }
 
   /**

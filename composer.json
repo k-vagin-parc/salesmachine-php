@@ -1,18 +1,17 @@
 {
-  "name": "segmentio/analytics-php",
-  "version": "1.2.0",
-  "description": "Segmentio Analytics PHP Library",
+  "name": "salesmachine-io/salesmachine-php",
+  "description": "Salesmachine Analytics PHP Library",
   "keywords": [
     "analytics",
-    "segmentio",
-    "analytics.js"
+    "salesmachine",
+    "salesmachine-php"
   ],
-  "homepage": "https://segment.io/libraries/php",
+  "homepage": "https://salesmachine.io/libraries/php",
   "license": "MIT",
   "authors": [
     {
-      "name": "Segment.io <friends@segment.io>",
-      "homepage": "https://segment.io/"
+      "name": "Salesmachine.io <contact@salesmachine.io>",
+      "homepage": "https://salesmachine.io/"
     }
   ],
   "require": {
@@ -22,6 +21,6 @@
     "phpunit/phpunit": "~4.0"
   },
   "autoload": {
-    "files": ["lib/Segment.php"]
+    "files": ["lib/Salesmachine.php"]
   }
 }

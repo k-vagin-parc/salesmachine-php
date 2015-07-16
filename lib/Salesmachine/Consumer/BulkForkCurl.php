@@ -1,8 +1,9 @@
 <?php
 
-class Segment_Consumer_ForkCurl extends Segment_QueueConsumer {
+class Salesmachine_Consumer_BulkForkCurl extends Salesmachine_QueueConsumer {
 
-  protected $type = "ForkCurl";
+  protected $type = "BulkForkCurl";
+  protected $endpoint;
 
 
   /**
@@ -14,8 +15,9 @@ class Segment_Consumer_ForkCurl extends Segment_QueueConsumer {
    *     number   "max_queue_size" - the max size of messages to enqueue
    *     number   "batch_size" - how many messages to send in a single request
    */
-  public function __construct($secret, $options = array()) {
-    parent::__construct($secret, $options);
+  public function __construct($token, $secret, $endpoint, $options = array()) {
+    $this->endpoint = $endpoint;
+    parent::__construct($token, $secret, $options);
   }
 
   /**
@@ -31,15 +33,15 @@ class Segment_Consumer_ForkCurl extends Segment_QueueConsumer {
 
     # Escape for shell usage.
     $payload = escapeshellarg($payload);
-    $secret = $this->secret;
 
-    $protocol = $this->ssl() ? "https://" : "http://";
-    $host = "api.segment.io";
-    $path = "/v1/import";
-    $url = $protocol . $host . $path;
+    $protocol = /*$this->ssl() ? "https://" : */"http://";
+    $id = $this->token . ":" . $this->secret . "@";
+    $host = "play.salesmachine.net:9000";
+    $path = "/v1/" . $this->endpoint;
+    $url = $protocol . $id . $host . $path;
 
-    $cmd = "curl -u $secret: -X POST -H 'Content-Type: application/json'";
-    $cmd.= " -d " . $payload . " '" . $url . "'";
+    $cmd = "curl -X POST -H 'Content-Type: application/json'";
+    $cmd.= " -d " . $payload . " '" . $url . "' --trace-ascii curl.log";
 
     if (!$this->debug()) {
       $cmd .= " > /dev/null 2>&1 &";

@@ -1,9 +1,10 @@
 <?php
-abstract class Segment_Consumer {
+abstract class Salesmachine_Consumer {
 
   protected $type = "Consumer";
 
   protected $options;
+  protected $token;
   protected $secret;
 
   /**
@@ -11,59 +12,44 @@ abstract class Segment_Consumer {
    * @param string $secret
    * @param array  $options
    */
-  public function __construct($secret, $options = array()) {
+  public function __construct($token, $secret, $options = array()) {
+    $this->token = $token;
     $this->secret = $secret;
     $this->options = $options;
   }
 
 
   /**
-   * Tracks a user action
-   * 
+   * Sets a contact
+   *
    * @param  array  $message
    * @return boolean whether the track call succeeded
    */
-  abstract public function track(array $message);
+  abstract public function set_contact(array $message);
 
   /**
-   * Tags traits about the user.
-   * 
+   * Sets an account
+   *
    * @param  array  $message
-   * @return boolean whether the identify call succeeded
+   * @return boolean whether the track call succeeded
    */
-  abstract public function identify(array $message);
+  abstract public function set_account(array $message);
 
   /**
-   * Tags traits about the group.
-   * 
+   * Track an event
+   *
    * @param  array  $message
-   * @return boolean whether the group call succeeded
+   * @return boolean whether the track call succeeded
    */
-  abstract public function group(array $message);
+  abstract public function track_event(array $message);
 
   /**
-   * Tracks a page view.
-   * 
+   * Track a pageview
+   *
    * @param  array  $message
-   * @return boolean whether the page call succeeded
+   * @return boolean whether the track call succeeded
    */
-  abstract public function page(array $message);
-
-  /**
-   * Tracks a screen view.
-   * 
-   * @param  array  $message
-   * @return boolean whether the group call succeeded
-   */
-  abstract public function screen(array $message);
-
-  /**
-   * Aliases from one user id to another
-   * 
-   * @param  array $message
-   * @return boolean whether the alias call succeeded
-   */
-  abstract public function alias(array $message);
+  abstract public function track_pageview(array $message);
 
   /**
    * Check whether debug mode is enabled

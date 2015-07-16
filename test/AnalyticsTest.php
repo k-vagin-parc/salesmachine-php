@@ -1,22 +1,22 @@
 <?php
 
-require_once(dirname(__FILE__) . "/../lib/Segment.php");
+require_once(dirname(__FILE__) . "/../lib/Salesmachine.php");
 
 class AnalyticsTest extends PHPUnit_Framework_TestCase {
 
   function setUp() {
     date_default_timezone_set("UTC");
-    Segment::init("oq0vdlg7yi", array("debug" => true));
+    Salesmachine::init("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw", array("debug" => true));
   }
 
-  function testTrack() {
-    $this->assertTrue(Segment::track(array(
-      "userId" => "john",
-      "event" => "Module PHP Event"
+  function testContact() {
+    $this->assertTrue(Salesmachine::set_contact(array(
+      "contact_uid" => "123456",
+      "name" => "Martin Mystère"
     )));
   }
 
-  function testGroup(){
+  /*function testGroup(){
     $this->assertTrue(Segment::group(array(
       "groupId" => "group-id",
       "userId" => "user-id",
@@ -36,7 +36,7 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase {
         "path" => "/docs/libraries/php/",
         "url" => "https://segment.io/docs/libraries/php/"
       )
-    )));    
+    )));
   }
 
   function testPage(){
@@ -141,6 +141,6 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase {
       "previousId" => "previous-id",
       "userId" => "user-id"
     )));
-  }
+  }*/
 }
 ?>

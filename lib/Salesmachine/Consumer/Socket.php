@@ -1,6 +1,6 @@
 <?php
 
-class Segment_Consumer_Socket extends Segment_QueueConsumer {
+class Salesmachine_Consumer_Socket extends Salesmachine_QueueConsumer {
 
   protected $type = "Socket";
   private $socket_failed;
@@ -13,13 +13,13 @@ class Segment_Consumer_Socket extends Segment_QueueConsumer {
    *     function "error_handler" - function called back on errors.
    *     boolean  "debug" - whether to use debug output, wait for response.
    */
-  public function __construct($secret, $options = array()) {
+  public function __construct($token, $secret, $endpoint, $options = array()) {
 
     if (!isset($options["timeout"]))
       $options["timeout"] = 5;
 
     if (!isset($options["host"]))
-      $options["host"] = "api.segment.io";
+      $options["host"] = "play.salesmachine.net:9000";
 
     parent::__construct($secret, $options);
   }

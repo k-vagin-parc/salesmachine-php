@@ -1,6 +1,6 @@
 <?php
 
-class Segment_Consumer_File extends Segment_Consumer {
+class Salesmachine_Consumer_File extends Salesmachine_Consumer {
 
   private $file_handle;
   protected $type = "File";
@@ -11,7 +11,7 @@ class Segment_Consumer_File extends Segment_Consumer {
    * @param array  $options
    *     string "filename" - where to log the analytics calls
    */
-  public function __construct($secret, $options = array()) {
+  public function __construct($token, $secret, $endpoint, $options = array()) {
 
     if (!isset($options["filename"]))
       $options["filename"] = sys_get_temp_dir() . DIRECTORY_SEPARATOR . "analytics.log";
@@ -34,62 +34,42 @@ class Segment_Consumer_File extends Segment_Consumer {
   }
 
   /**
-   * Tracks a user action
-   * 
+   * Sets a contact
+   *
    * @param  array $message
    * @return [boolean] whether the track call succeeded
    */
-  public function track(array $message) {
+  public function set_contact(array $message) {
     return $this->write($message);
   }
 
   /**
-   * Tags traits about the user.
-   * 
+   * Sets  an account
+   *
    * @param  array $message
-   * @return [boolean] whether the identify call succeeded
+   * @return [boolean] whether the track call succeeded
    */
-  public function identify(array $message) {
+  public function set_account(array $message) {
     return $this->write($message);
   }
 
   /**
-   * Tags traits about the group.
-   * 
+   * Tracks an event
+   *
    * @param  array $message
-   * @return [boolean] whether the group call succeeded
+   * @return [boolean] whether the track call succeeded
    */
-  public function group(array $message) {
+  public function track_event(array $message) {
     return $this->write($message);
   }
 
   /**
-   * Tracks a page view.
-   * 
+   * Tracks a pageview
+   *
    * @param  array $message
-   * @return [boolean] whether the page call succeeded
+   * @return [boolean] whether the track call succeeded
    */
-  public function page(array $message) {
-    return $this->write($message);
-  }
-
-  /**
-   * Tracks a screen view.
-   * 
-   * @param  array $message
-   * @return [boolean] whether the screen call succeeded
-   */
-  public function screen(array $message) {
-    return $this->write($message);
-  }
-
-  /**
-   * Aliases from one user id to another
-   * 
-   * @param  array $message
-   * @return boolean whether the alias call succeeded
-   */
-  public function alias(array $message) {
+  public function track_pageview(array $message) {
     return $this->write($message);
   }
 
