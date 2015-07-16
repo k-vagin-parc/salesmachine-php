@@ -29,10 +29,10 @@ For an usage in a production environment you might want to tweak some parameters
     Salesmachine::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));
 
 ### Create or Update a Contact
-    Salesmachine::set_contact(array("contact_uid" => $unique_contact_id, "params" => array('name' => 'John Doe', 'email' => 'john@doe.com')));
+    Salesmachine::set_contact($unique_contact_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
 
 ### Track Pageview of a Contact
-    Salesmachine::track_pageview(array("contact_uid" => $unique_contact_id, "params" => array('/dashboard'));
+    Salesmachine::track_pageview($unique_contact_id, array('/dashboard'));
 
 ### Track Events of a Contact
     Salesmachine::track_event($unique_contact_id, 'your event name');

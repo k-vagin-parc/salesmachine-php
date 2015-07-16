@@ -52,7 +52,7 @@ $lines = explode("\n", $contents);
  * Initialize the client.
  */
 
-Salesmachine::init("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw", array(
+Salesmachine::init($args['token'], $args['secret'], array(
   "debug" => true,
   "error_handler" => function($code, $msg){
     print("$code: $msg\n");
