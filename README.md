@@ -29,13 +29,13 @@ For an usage in a production environment you might want to tweak some parameters
     Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));
 
 ### Create or Update a Contact
-    Salesmachine::set_contact($unique_contact_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
+    Salesmachine::set_contact($contact_uid, array('name' => 'John Doe', 'email' => 'john@doe.com'));
 
 ### Track Pageview of a Contact
-    Salesmachine::track_pageview($unique_contact_id, array('/dashboard'));
+    Salesmachine::track_pageview($contact_uid, array('/dashboard'));
 
 ### Track Events of a Contact
-    Salesmachine::track_event($unique_contact_id, 'your event name');
+    Salesmachine::track_event($contact_uid, 'your event name');
 
 ## Using salesmachine-php in Production Environments
 While the default settings get you going right away, it is recommended to change some settings for production environments.
@@ -47,7 +47,7 @@ The local buffer can then be sent with a cron job in regular intervals by using 
 ### Store a requests in local buffer
 
     Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));
-    Salesmachine::set_contact($unique_contact_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
+    Salesmachine::set_contact($contact_uid, array('name' => 'John Doe', 'email' => 'john@doe.com'));
     ...
 
 ### Process local buffer in cron job
