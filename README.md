@@ -26,7 +26,7 @@ salesmachine-php is a static class which makes the usage very easy. Once initial
 
 For an usage in a production environment you might want to tweak some parameters. This can be done by adding an array with parameters while initiliazing the class. A list of all options is described later in this document. An example call with parameters would look this:
 
-    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));
+    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));
 
 ### Create or Update a Contact
     Salesmachine::set_contact($unique_contact_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
