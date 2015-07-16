@@ -10,6 +10,8 @@ class ConsumerSingleForkCurlTest extends PHPUnit_Framework_TestCase {
     date_default_timezone_set("UTC");
     $this->client = new Salesmachine_Client("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw",
                           array("consumer" => "single_fork_curl",
+                                "host" => "play.salesmachine.net:9000",
+                                "ssl" => false,
                                 "debug"    => true));
   }
 

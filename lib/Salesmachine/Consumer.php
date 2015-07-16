@@ -69,6 +69,9 @@ abstract class Salesmachine_Consumer {
     return isset($this->options["ssl"]) ? $this->options["ssl"] : true;
   }
 
+  protected function host() {
+    return isset($this->options["host"]) ? $this->options["host"] : "api.salesmachine.io";
+  }
 
   /**
    * On an error, try and call the error handler, if debugging output to

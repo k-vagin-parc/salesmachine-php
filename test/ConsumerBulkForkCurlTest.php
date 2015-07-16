@@ -10,6 +10,7 @@ class ConsumerBulkForkCurlTest extends PHPUnit_Framework_TestCase {
     date_default_timezone_set("UTC");
     $this->client = new Salesmachine_Client("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw",
                           array("consumer" => "bulk_fork_curl",
+                                "ssl" => false,
                                 "debug"    => true));
   }
 

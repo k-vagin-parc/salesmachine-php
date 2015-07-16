@@ -67,8 +67,6 @@ If this parameter is not present or option keys are missing, the default values 
 |log_file_buffer | salesmachine_buffer.log | The file which will be used for the local buffer of requests.
 |log_file_debug | salesmachine_debug.log | The log file in which can be used for debugging.
 |debug | false | If activated, debug information will be written to the log file
-|prod_env |false | If set to true, errors will be silently routed to the default stderr error file
-|epoch | null | By default, time() will be used as the time of the request. It's also possible to provide a different unix timestamp for the request.
 
 ## Additional Information
 

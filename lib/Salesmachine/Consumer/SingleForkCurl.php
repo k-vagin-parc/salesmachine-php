@@ -76,9 +76,9 @@ class Salesmachine_Consumer_SingleForkCurl extends Salesmachine_Consumer {
     # Escape for shell usage.
     $payload = escapeshellarg($payload);
 
-    $protocol = /*$this->ssl() ? "https://" : */"http://";
+    $protocol = $this->ssl() ? "https://" : "http://";
     $id = $this->token . ":" . $this->secret . "@";
-    $host = "play.salesmachine.net:9000";
+    $host = $this->host();
     $path = "/v1/" . $this->endpoint;
     $url = $protocol . $id . $host . $path;
 

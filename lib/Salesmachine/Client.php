@@ -70,8 +70,10 @@ class Salesmachine_Client {
    */
   public function set_contact($contact_uid, array $message = array()) {
     //$message["type"] = "track";
-    $message['contact_uid'] = $contact_uid;
-    return $this->consumer_contact->set_contact($this->message($message));
+    $data = array();
+    $data['contact_uid'] = $contact_uid;
+    $data['params'] = $message;
+    return $this->consumer_contact->set_contact($this->message($data));
   }
 
   /**
@@ -82,8 +84,10 @@ class Salesmachine_Client {
    */
   public function set_account($account_uid, array $message = array()) {
     //$message["type"] = "track";
-    $message['account_uid'] = $account_uid;
-    return $this->consumer_account->set_account($this->message($message));
+    $data = array();
+    $data['account_uid'] = $account_uid;
+    $data['params'] = $message;
+    return $this->consumer_account->set_account($this->message($data));
   }
 
   /**
@@ -94,9 +98,11 @@ class Salesmachine_Client {
    */
   public function track_event($contact_uid, $event_uid, array $message = array()) {
     //$message["type"] = "track";
-    $message['contact_uid'] = $contact_uid;
-    $message['event_uid'] = $event_uid;
-    return $this->consumer_event->track_event($this->message($message));
+    $data = array();
+    $data['contact_uid'] = $contact_uid;
+    $data['event_uid'] = $event_uid;
+    $data['params'] = $message;
+    return $this->consumer_event->track_event($this->message($data));
   }
 
   /**
@@ -107,9 +113,11 @@ class Salesmachine_Client {
    */
   public function track_pageview($contact_uid, array $message = array()) {
     //$message["type"] = "track";
-    $message['contact_uid'] = $contact_uid;
-    $message['event_uid'] = "pageview";
-    return $this->consumer_pageview->track_pageview($this->message($message));
+    $data = array();
+    $data['contact_uid'] = $contact_uid;
+    $data['event_uid'] = "pageview";
+    $data['params'] = $message;
+    return $this->consumer_pageview->track_pageview($this->message($data));
   }
 
 
