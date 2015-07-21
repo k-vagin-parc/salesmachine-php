@@ -95,13 +95,13 @@ abstract class Salesmachine_QueueConsumer extends Salesmachine_Consumer {
    * Flushes our queue of messages by batching them to the server
    */
   public function flush() {
-
     $count = count($this->queue);
     $success = true;
 
     while($count > 0 && $success) {
 
       $batch = array_splice($this->queue, 0, min($this->batch_size, $count));
+      var_dump("BATCH: " . json_encode($batch));
       $success = $this->flushBatch($batch);
 
       $count = count($this->queue);
@@ -118,7 +118,7 @@ abstract class Salesmachine_QueueConsumer extends Salesmachine_Consumer {
    * @return {Array}
    **/
   protected function payload($batch){
-    return $batch[0];
+    return $batch;
     /*
     TO MODIFY WHEN BULK MODE IS ACTIVATED
     return array(

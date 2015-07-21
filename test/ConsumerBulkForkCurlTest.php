@@ -10,6 +10,7 @@ class ConsumerBulkForkCurlTest extends PHPUnit_Framework_TestCase {
     date_default_timezone_set("UTC");
     $this->client = new Salesmachine_Client("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw",
                           array("consumer" => "bulk_fork_curl",
+                                "host" => "play.salesmachine.net:9000",
                                 "ssl" => false,
                                 "debug"    => true));
   }
@@ -52,6 +53,18 @@ class ConsumerBulkForkCurlTest extends PHPUnit_Framework_TestCase {
   }
 
   function testFlush() {
+    $this->assertTrue($this->client->track_event("7549", "user_registration",
+      array(
+        "account_uid" => "78910",
+        "display_name" => "Registration"
+      )
+    ));
+    $this->assertTrue($this->client->track_pageview("75478",
+      array(
+        "account_uid" => "78910",
+        "display_name" => "Registration"
+      )
+    ));
     $this->assertTrue($this->client->flush());
   }
 }

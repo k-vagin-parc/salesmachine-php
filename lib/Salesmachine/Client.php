@@ -18,9 +18,10 @@ class Salesmachine_Client {
   private $consumer_contact;
   private $consumer_about;
   private $consumer_event;
-  private $consumer_pageview;
+  private $consumer;
 
   private $token;
+  private $mode;
 
   /**
    * Create a new analytics object with your app's secret
@@ -44,22 +45,28 @@ class Salesmachine_Client {
                                                    "single_fork_curl";
     $Consumer = $consumers[$consumer_type];
 
-    /* Commented "if" below will have to be uncommented and to get an "else" statement when bulk mode is activated
-    /*if ($Consumer == "Salesmachine_Consumer_SingleForkCurl") {
-      # Create a consumer by endpoint*/
+    if ($Consumer == "Salesmachine_Consumer_SingleForkCurl") {
+      $this->mode = "single";
+      # Create a consumer by endpoint
       $this->consumer_contact = new $Consumer($token, $secret, "contact", $options);
       $this->consumer_account = new $Consumer($token, $secret, "account", $options);
       $this->consumer_event = new $Consumer($token, $secret, "track/event", $options);
-      $this->consumer_pageview = new $Consumer($token, $secret, "track/event", $options);
-    //}
+    } else {
+      $this->mode = "batch";
+      $this->consumer = new $Consumer($token, $secret, "batch", $options);
+    }
+
     $this->token = $token;
   }
 
   public function __destruct() {
-    $this->consumer_contact->__destruct();
-    $this->consumer_account->__destruct();
-    $this->consumer_event->__destruct();
-    $this->consumer_pageview->__destruct();
+    if ($this->mode == "single") {
+      $this->consumer_contact->__destruct();
+      $this->consumer_account->__destruct();
+      $this->consumer_event->__destruct();
+    } else {
+      $this->consumer->__destruct();
+    }
   }
 
   /**
@@ -69,11 +76,16 @@ class Salesmachine_Client {
    * @return [boolean] whether the track call succeeded
    */
   public function set_contact($contact_uid, array $message = array()) {
-    //$message["type"] = "track";
     $data = array();
     $data['contact_uid'] = $contact_uid;
     $data['params'] = $message;
-    return $this->consumer_contact->set_contact($this->message($data));
+
+    if ($this->mode == "single") {
+      return $this->consumer_contact->set_contact($this->message($data));
+    } else {
+      $data['method'] = 'contact';
+      return $this->consumer->set_contact($this->message($data));
+    }
   }
 
   /**
@@ -83,11 +95,16 @@ class Salesmachine_Client {
    * @return [boolean] whether the track call succeeded
    */
   public function set_account($account_uid, array $message = array()) {
-    //$message["type"] = "track";
     $data = array();
     $data['account_uid'] = $account_uid;
     $data['params'] = $message;
-    return $this->consumer_account->set_account($this->message($data));
+
+    if ($this->mode == "single") {
+      return $this->consumer_account->set_account($this->message($data));
+    } else {
+      $data['method'] = 'account';
+      return $this->consumer->set_account($this->message($data));
+    }
   }
 
   /**
@@ -97,12 +114,17 @@ class Salesmachine_Client {
    * @return [boolean] whether the track call succeeded
    */
   public function track_event($contact_uid, $event_uid, array $message = array()) {
-    //$message["type"] = "track";
     $data = array();
     $data['contact_uid'] = $contact_uid;
     $data['event_uid'] = $event_uid;
     $data['params'] = $message;
-    return $this->consumer_event->track_event($this->message($data));
+
+    if ($this->mode == "single") {
+      return $this->consumer_event->track_event($this->message($data));
+    } else {
+      $data['method'] = 'event';
+      return $this->consumer->track_event($this->message($data));
+    }
   }
 
   /**
@@ -117,7 +139,13 @@ class Salesmachine_Client {
     $data['contact_uid'] = $contact_uid;
     $data['event_uid'] = "pageview";
     $data['params'] = $message;
-    return $this->consumer_pageview->track_pageview($this->message($data));
+
+    if ($this->mode == "single") {
+      return $this->consumer_event->track_event($this->message($data));
+    } else {
+      $data['method'] = 'event';
+      return $this->consumer->track_event($this->message($data));
+    }
   }
 
 
@@ -125,11 +153,8 @@ class Salesmachine_Client {
    * Flush any async consumers
    */
   public function flush() {
-    if (!method_exists($this->consumer_contact, 'flush')) return false;
-    return $this->consumer_contact->flush()
-           && $this->consumer_account->flush()
-           && $this->consumer_event->flush()
-           && $this->consumer_pageview->flush();
+    if (!method_exists($this->consumer, 'flush')) return false;
+    return $this->consumer->flush();
   }
 
   /**

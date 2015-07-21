@@ -41,7 +41,7 @@ class Salesmachine_Consumer_BulkForkCurl extends Salesmachine_QueueConsumer {
     $url = $protocol . $id . $host . $path;
 
     $cmd = "curl -X POST -H 'Content-Type: application/json'";
-    $cmd.= " -d " . $payload . " '" . $url . "'";
+    $cmd.= " -d " . $payload . " '" . $url . "' --trace-ascii curl.log";
 
     if (!$this->debug()) {
       $cmd .= " > /dev/null 2>&1 &";
