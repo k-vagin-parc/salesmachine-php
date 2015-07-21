@@ -101,7 +101,6 @@ abstract class Salesmachine_QueueConsumer extends Salesmachine_Consumer {
     while($count > 0 && $success) {
 
       $batch = array_splice($this->queue, 0, min($this->batch_size, $count));
-      var_dump("BATCH: " . json_encode($batch));
       $success = $this->flushBatch($batch);
 
       $count = count($this->queue);

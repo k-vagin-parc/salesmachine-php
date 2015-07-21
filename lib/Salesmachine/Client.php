@@ -3,7 +3,7 @@
 require(__DIR__ . '/Consumer.php');
 require(__DIR__ . '/QueueConsumer.php');
 require(__DIR__ . '/Consumer/File.php');
-require(__DIR__ . '/Consumer/BulkForkCurl.php');
+require(__DIR__ . '/Consumer/BatchForkCurl.php');
 require(__DIR__ . '/Consumer/SingleForkCurl.php');
 require(__DIR__ . '/Consumer/Socket.php');
 
@@ -36,7 +36,7 @@ class Salesmachine_Client {
     $consumers = array(
       "socket"     => "Salesmachine_Consumer_Socket",
       "file"       => "Salesmachine_Consumer_File",
-      "bulk_fork_curl"  => "Salesmachine_Consumer_BulkForkCurl",
+      "batch_fork_curl"  => "Salesmachine_Consumer_BatchForkCurl",
       "single_fork_curl"  => "Salesmachine_Consumer_SingleForkCurl"
     );
 

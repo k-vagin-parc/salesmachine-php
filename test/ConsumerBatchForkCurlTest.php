@@ -2,14 +2,14 @@
 
 require_once(dirname(__FILE__) . "/../lib/Salesmachine/Client.php");
 
-class ConsumerBulkForkCurlTest extends PHPUnit_Framework_TestCase {
+class ConsumerBatchForkCurlTest extends PHPUnit_Framework_TestCase {
 
   private $client;
 
   function setUp() {
     date_default_timezone_set("UTC");
     $this->client = new Salesmachine_Client("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw",
-                          array("consumer" => "bulk_fork_curl",
+                          array("consumer" => "batch_fork_curl",
                                 "host" => "play.salesmachine.net:9000",
                                 "ssl" => false,
                                 "debug"    => true));
