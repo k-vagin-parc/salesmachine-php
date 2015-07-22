@@ -1,8 +1,8 @@
 <?php
 
-class Salesmachine_Consumer_BulkForkCurl extends Salesmachine_QueueConsumer {
+class Salesmachine_Consumer_BatchForkCurl extends Salesmachine_QueueConsumer {
 
-  protected $type = "BulkForkCurl";
+  protected $type = "BatchForkCurl";
   protected $endpoint;
 
 
