@@ -21,7 +21,7 @@ class Salesmachine {
     self::assert($secret, "Salesmachine::init() requires secret");
 
     if (isset($options['use_buffer'])) {
-      $options['consumer'] = $options['use_buffer'] ? "bulk_fork_curl" : "single_fork_curl";
+      $options['consumer'] = $options['use_buffer'] ? "batch_fork_curl" : "single_fork_curl";
     }
     else {
       $options['consumer'] = "single_fork_curl";
