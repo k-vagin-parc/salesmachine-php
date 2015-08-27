@@ -3,9 +3,7 @@
 require(__DIR__ . '/Consumer.php');
 require(__DIR__ . '/QueueConsumer.php');
 require(__DIR__ . '/Consumer/File.php');
-require(__DIR__ . '/Consumer/BatchForkCurl.php');
-require(__DIR__ . '/Consumer/SingleForkCurl.php');
-require(__DIR__ . '/Consumer/Socket.php');
+require(__DIR__ . '/Consumer/ForkCurl.php');
 
 class Salesmachine_Client {
 
@@ -15,9 +13,6 @@ class Salesmachine_Client {
 
   const VERSION = "1.0.0";
 
-  private $consumer_contact;
-  private $consumer_about;
-  private $consumer_event;
   private $consumer;
 
   private $token;
@@ -34,39 +29,21 @@ class Salesmachine_Client {
   public function __construct($token, $secret, $options = array()) {
 
     $consumers = array(
-      "socket"     => "Salesmachine_Consumer_Socket",
       "file"       => "Salesmachine_Consumer_File",
-      "batch_fork_curl"  => "Salesmachine_Consumer_BatchForkCurl",
-      "single_fork_curl"  => "Salesmachine_Consumer_SingleForkCurl"
+      "fork_curl"  => "Salesmachine_Consumer_ForkCurl",
     );
 
     # Use our curl single-request consumer by default
     $consumer_type = isset($options["consumer"]) ? $options["consumer"] :
-                                                   "single_fork_curl";
+                                                   "fork_curl";
     $Consumer = $consumers[$consumer_type];
-
-    if ($Consumer == "Salesmachine_Consumer_SingleForkCurl") {
-      $this->mode = "single";
-      # Create a consumer by endpoint
-      $this->consumer_contact = new $Consumer($token, $secret, "contact", $options);
-      $this->consumer_account = new $Consumer($token, $secret, "account", $options);
-      $this->consumer_event = new $Consumer($token, $secret, "track/event", $options);
-    } else {
-      $this->mode = "batch";
-      $this->consumer = new $Consumer($token, $secret, "batch", $options);
-    }
+    $this->consumer = new $Consumer($token, $secret, "batch", $options);
 
     $this->token = $token;
   }
 
   public function __destruct() {
-    if ($this->mode == "single") {
-      $this->consumer_contact->__destruct();
-      $this->consumer_account->__destruct();
-      $this->consumer_event->__destruct();
-    } else {
-      $this->consumer->__destruct();
-    }
+    $this->consumer->__destruct();
   }
 
   /**
@@ -79,13 +56,8 @@ class Salesmachine_Client {
     $data = array();
     $data['contact_uid'] = $contact_uid;
     $data['params'] = $message;
-
-    if ($this->mode == "single") {
-      return $this->consumer_contact->set_contact($this->message($data));
-    } else {
-      $data['method'] = 'contact';
-      return $this->consumer->set_contact($this->message($data));
-    }
+    $data['method'] = 'contact';
+    return $this->consumer->set_contact($this->message($data));
   }
 
   /**
@@ -98,13 +70,8 @@ class Salesmachine_Client {
     $data = array();
     $data['account_uid'] = $account_uid;
     $data['params'] = $message;
-
-    if ($this->mode == "single") {
-      return $this->consumer_account->set_account($this->message($data));
-    } else {
-      $data['method'] = 'account';
-      return $this->consumer->set_account($this->message($data));
-    }
+    $data['method'] = 'account';
+    return $this->consumer->set_account($this->message($data));
   }
 
   /**
@@ -118,13 +85,8 @@ class Salesmachine_Client {
     $data['contact_uid'] = $contact_uid;
     $data['event_uid'] = $event_uid;
     $data['params'] = $message;
-
-    if ($this->mode == "single") {
-      return $this->consumer_event->track_event($this->message($data));
-    } else {
-      $data['method'] = 'event';
-      return $this->consumer->track_event($this->message($data));
-    }
+    $data['method'] = 'event';
+    return $this->consumer->track_event($this->message($data));
   }
 
   /**
@@ -139,13 +101,8 @@ class Salesmachine_Client {
     $data['contact_uid'] = $contact_uid;
     $data['event_uid'] = "pageview";
     $data['params'] = $message;
-
-    if ($this->mode == "single") {
-      return $this->consumer_event->track_event($this->message($data));
-    } else {
-      $data['method'] = 'event';
-      return $this->consumer->track_event($this->message($data));
-    }
+    $data['method'] = 'event';
+    return $this->consumer->track_event($this->message($data));
   }
 
 

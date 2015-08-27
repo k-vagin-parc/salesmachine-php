@@ -21,13 +21,9 @@ class Salesmachine {
     self::assert($secret, "Salesmachine::init() requires secret");
 
     if (isset($options['use_buffer'])) {
-      $options['consumer'] = $options['use_buffer'] ? "batch_fork_curl" : "single_fork_curl";
-    }
-    else {
-      $options['consumer'] = "single_fork_curl";
+      $options['buffer_size'] = $options['use_buffer'] ? 1000 : 1;
     }
 
-    //var_dump($options['consumer']);
     self::$client = new Salesmachine_Client($token, $secret, $options);
   }
 

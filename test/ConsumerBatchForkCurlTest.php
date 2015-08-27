@@ -9,7 +9,7 @@ class ConsumerBatchForkCurlTest extends PHPUnit_Framework_TestCase {
   function setUp() {
     date_default_timezone_set("UTC");
     $this->client = new Salesmachine_Client("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw",
-                          array("consumer" => "batch_fork_curl",
+                          array("use_buffer" => true,
                                 "host" => "play.salesmachine.net:9000",
                                 "ssl" => false,
                                 "debug"    => true));
