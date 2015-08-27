@@ -21,33 +21,24 @@ If you do not use the Composer package manager or PSR-0 autoloading in your proj
 ### Init Salesmachine
 salesmachine-php is a static class which makes the usage very easy. Once initialized, the class and its methods can be called at different places without re-initializing. For a quick start you can use the default values and initialize the class as followed:
 
-    use \SalesmachinePhp\Salesmachine as SM;
-    SM::init($api_token, $api_secret);
+    use \SalesmachinePhp\Salesmachine as Salesmachine;
+    Salesmachine::init($api_token, $api_secret);
 
 For an usage in a production environment you might want to tweak some parameters. This can be done by adding an array with parameters while initiliazing the class. A list of all options is described later in this document. An example call with parameters would look this:
 
-    SM::init($api_key, $api_secret, array('use_buffer' => true, 'prod_env' => true));
+    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));
 
 ### Create or Update a Contact
-    SM::user($unique_contact_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
+    Salesmachine::set_contact($contact_uid, array('name' => 'John Doe', 'email' => 'john@doe.com'));
 
 ### Track Pageview of a Contact
-    SM::pageview($unique_contact_id, '/dashboard');
+    Salesmachine::track_pageview($contact_uid, array('/dashboard'));
 
-### Tack Events of a Contact
-    SM::event($unique_contact_id, 'your event name');
-
-### Create or Update a Data Element
-Elements are arrays which belong to a certain set of data. An element can also be associated to a user by adding user_id to the parameters.
-
-    SM::element($unique_id, $dataset, array('a_key' => 'A value', 'another_key' => 'another value'));
-
-An exampe of a data elemen call could look like this
-
-    SM::element('project_12345', 'projects', array('user_id' => '1234', 'created_at' => '1396866339','title' => 'The title of the project'));
+### Track Events of a Contact
+    Salesmachine::track_event($contact_uid, 'your event name');
 
 ## Using salesmachine-php in Production Environments
-While the default settings get you going right away, it is recommend to change some settings for production environments.
+While the default settings get you going right away, it is recommended to change some settings for production environments.
 
 By default, all requests to SalesMachine.IO are with CURL in real time. On a high traffic environment this can eventually lead to reduced performance on the host site. It is therefore recommended to enable the option "use_buffer" which will buffer all requests to a local file first.
 
@@ -55,30 +46,24 @@ The local buffer can then be sent with a cron job in regular intervals by using 
 
 ### Store a requests in local buffer
 
-    SM::init($api_key, $api_secret, array('use_buffer' => true));
-    SM::user($unique_user_id, array('name' => 'John Doe', 'email' => 'john@doe.com'));
-    SM::pageview($unique_user_id, '/dashboard');
+    Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));
+    Salesmachine::set_contact($contact_uid, array('name' => 'John Doe', 'email' => 'john@doe.com'));
     ...
 
 ### Process local buffer in cron job
 
-    SM::init($api_key, $api_secret);
-    SM::send_buffer();
+    Salesmachine::init($api_key, $api_secret);
+    Salesmachine::flush();
 
 ## Options
-When calling SM::init($api_key, $api_secret) an array of options can be passed as a third parameter.
+When calling Salesmachine::init($api_key, $api_secret) an array of options can be passed as a third parameter.
 If this parameter is not present or option keys are missing, the default values are taken.
 
 |Option | Default | Description
 |:------------:|:-------------:| ----- |
 |use_https | true | Whether or not to send the data to SalesMachine SSL encrypted
 |use_buffer | false | If set to true, requests will be written to a local file instead of sent directly to SalesMachine.io. The buffer of stored requests can then later be sent by a cron job.
-|log_dir | /logs/ |A writeable directory where the buffer and the debug file can be stored. Trailing slash is mandatory.
-|log_file_buffer | salesmachine_buffer.log | The file which will be used for the local buffer of requests.
-|log_file_debug | salesmachine_debug.log | The log file in which can be used for debugging.
-|debug | false | If activated, debug information will be written to the log file
-|prod_env |false | If set to true, errors will be silently routed to the default stderr error file
-|epoch | null | By default, time() will be used as the time of the request. It's also possible to provide a different unix timestamp for the request.
+|debug | false | If activated, debug information will be written to the log file in test/analytics-xx.log
 
 ## Additional Information
 

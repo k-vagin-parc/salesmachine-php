@@ -1,8 +1,8 @@
 <?php
 
-class Salesmachine_Consumer_BulkForkCurl extends Salesmachine_QueueConsumer {
+class Salesmachine_Consumer_ForkCurl extends Salesmachine_QueueConsumer {
 
-  protected $type = "BulkForkCurl";
+  protected $type = "ForkCurl";
   protected $endpoint;
 
 
@@ -34,14 +34,14 @@ class Salesmachine_Consumer_BulkForkCurl extends Salesmachine_QueueConsumer {
     # Escape for shell usage.
     $payload = escapeshellarg($payload);
 
-    $protocol = /*$this->ssl() ? "https://" : */"http://";
+    $protocol = $this->ssl() ? "https://" : "http://";
     $id = $this->token . ":" . $this->secret . "@";
-    $host = "play.salesmachine.net:9000";
+    $host = $this->host();
     $path = "/v1/" . $this->endpoint;
     $url = $protocol . $id . $host . $path;
 
     $cmd = "curl -X POST -H 'Content-Type: application/json'";
-    $cmd.= " -d " . $payload . " '" . $url . "' --trace-ascii curl.log";
+    $cmd.= " -d " . $payload . " '" . $url . "'";
 
     if (!$this->debug()) {
       $cmd .= " > /dev/null 2>&1 &";
@@ -53,6 +53,6 @@ class Salesmachine_Consumer_BulkForkCurl extends Salesmachine_QueueConsumer {
       $this->handleError($exit, $output);
     }
 
-    return $exit == 0;
+    return $exit == 0 && !isset(json_decode($output[0], true)['error']);
   }
 }

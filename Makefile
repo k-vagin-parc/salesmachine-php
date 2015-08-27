@@ -1,4 +1,3 @@
-
 install: vendor
 
 vendor: composer.phar
@@ -13,8 +12,8 @@ test: install
 
 clean:
 	rm -rf \
-		composer.phar \
-		vendor \
-		composer.lock
+    composer.phar \
+    vendor \
+    composer.lock
 
 .PHONY: test
