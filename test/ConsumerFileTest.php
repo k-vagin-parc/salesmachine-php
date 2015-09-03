@@ -14,7 +14,7 @@ class ConsumerFileTest extends PHPUnit_Framework_TestCase {
       unlink($this->filename);
     }
 
-    $this->client = new Salesmachine_Client("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw",
+    $this->client = new Salesmachine_Client("key", "secret",
                           array("consumer" => "file",
                                 "filename" => $this->filename));
 

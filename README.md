@@ -14,18 +14,9 @@ The requirements regarding your PHP environment are quite basic:
 
 ## Quick Guide and Code Examples
 ### Installation
-The salesmachine-php client library comes as a [Composer package](https://getcomposer.org/) and implements the PSR-0 autoload definition. This way it should be straight forward to use the library in the most modern PHP applications. All you need to do is to add the *salesmachine/salesmachine-php : "dev-master"* to the composer.json file of your project and update your dependencies with the command "composer update".
-
-If you do not use the Composer package manager or PSR-0 autoloading in your project, just include the library file with a simple *require('Salesmachine.php');* and you should be ready to go.
+The salesmachine-php client library comes as a [Composer package](https://getcomposer.org/).
 
 ### Init Salesmachine
-salesmachine-php is a static class which makes the usage very easy. Once initialized, the class and its methods can be called at different places without re-initializing. For a quick start you can use the default values and initialize the class as followed:
-
-    use \SalesmachinePhp\Salesmachine as Salesmachine;
-    Salesmachine::init($api_token, $api_secret);
-
-For an usage in a production environment you might want to tweak some parameters. This can be done by adding an array with parameters while initiliazing the class. A list of all options is described later in this document. An example call with parameters would look this:
-
     Salesmachine::init($api_key, $api_secret, array('use_buffer' => true));
 
 ### Create or Update a Contact
@@ -62,7 +53,7 @@ If this parameter is not present or option keys are missing, the default values 
 |Option | Default | Description
 |:------------:|:-------------:| ----- |
 |use_https | true | Whether or not to send the data to SalesMachine SSL encrypted
-|use_buffer | false | If set to true, requests will be written to a local file instead of sent directly to SalesMachine.io. The buffer of stored requests can then later be sent by a cron job.
+|use_buffer | true | If set to false, requests will be sent one by one instead of batch. This is not recommended since it will add load to Salesmachine.io servers.
 |debug | false | If activated, debug information will be written to the log file in test/analytics-xx.log
 
 ## Additional Information

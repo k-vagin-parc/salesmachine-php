@@ -6,9 +6,9 @@ class AnalyticsTest extends PHPUnit_Framework_TestCase {
 
   function setUp() {
     date_default_timezone_set("UTC");
-    Salesmachine::init("fWlU0N6jJKbcgW_OR6OidQ", "UZ8YjpEXXPBYmROvPnJ5jw", array("debug" => true,
-                                                                                 "host" => "play.salesmachine.net:9000",
-                                                                                 "ssl" => false));
+    Salesmachine::init("key", "secret", array("debug" => true,
+                                              "host" => "play.salesmachine.net:9000",
+                                              "ssl" => false));
   }
 
   function testContact() {

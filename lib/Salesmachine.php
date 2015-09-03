@@ -22,6 +22,8 @@ class Salesmachine {
 
     if (isset($options['use_buffer'])) {
       $options['buffer_size'] = $options['use_buffer'] ? 1000 : 1;
+    } else {
+      $options['buffer_size'] = 1000;
     }
 
     self::$client = new Salesmachine_Client($token, $secret, $options);
