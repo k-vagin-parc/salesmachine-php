@@ -21,9 +21,9 @@ class Salesmachine {
     self::assert($secret, "Salesmachine::init() requires secret");
 
     if (isset($options['use_buffer'])) {
-      $options['batch_size'] = $options['use_buffer'] ? 1000 : 1;
+      $options['batch_size'] = $options['use_buffer'] ? 100 : 1;
     } else {
-      $options['batch_size'] = 1000;
+      $options['batch_size'] = 100;
     }
 
     self::$client = new Salesmachine_Client($token, $secret, $options);
