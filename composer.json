@@ -1,6 +1,6 @@
 {
   "name": "salesmachine-io/salesmachine-php",
-  "description": "Salesmachine Analytics PHP Library",
+  "description": "The Salesmachine.io PHP library",
   "keywords": [
     "analytics",
     "salesmachine",
