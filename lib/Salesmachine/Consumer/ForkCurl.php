@@ -26,33 +26,32 @@ class Salesmachine_Consumer_ForkCurl extends Salesmachine_QueueConsumer {
    * @param  array   $messages array of all the messages to send
    * @return boolean whether the request succeeded
    */
-  public function flushBatch($messages) {
+  public function flushBatch($messages)
+  {
+      $id = $this->token . ":" . $this->secret . "@";
+      $protocol = $this->ssl() ? "https://" : "http://";
+      $host = $this->host();
+      $path = "/v1/" . $this->endpoint;
+      $url = $protocol . $id . $host . $path;
 
-    $body = $this->payload($messages);
-    $payload = json_encode($body);
+      $body = $this->payload($messages);
+      $payload = json_encode($body);
 
-    # Escape for shell usage.
-    $payload = escapeshellarg($payload);
+      $curlHandle = curl_init();
+      curl_setopt($curlHandle, CURLOPT_URL, $url);
+      curl_setopt($curlHandle, CURLOPT_POST, true);
+      curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($curlHandle, CURLOPT_POSTFIELDS, $payload);
+      curl_setopt($curlHandle, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 
-    $protocol = $this->ssl() ? "https://" : "http://";
-    $id = $this->token . ":" . $this->secret . "@";
-    $host = $this->host();
-    $path = "/v1/" . $this->endpoint;
-    $url = $protocol . $id . $host . $path;
+      curl_exec($curlHandle);
+      $code = curl_getinfo($curlHandle, CURLINFO_HTTP_CODE);
+      curl_close($curlHandle);
 
-    $cmd = "curl -X POST -H 'Content-Type: application/json'";
-    $cmd.= " -d " . $payload . " '" . $url . "'";
+      if ($code != 201) {
+          $this->handleError($code, null);
+      }
 
-    if (!$this->debug()) {
-      $cmd .= " > /dev/null 2>&1 &";
-    }
-
-    exec($cmd, $output, $exit);
-
-    if ($exit != 0) {
-      $this->handleError($exit, $output);
-    }
-
-    return $exit == 0 && (!isset($output[0]) || !isset(json_decode($output[0], true)['error']));
+      return $code == 201;
   }
 }
